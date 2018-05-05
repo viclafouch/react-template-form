@@ -5,10 +5,6 @@ export default class User {
     email = null;
     description = null;
 
-    static get fullName() {
-        return `${this.firstname} ${this.lastname}`
-    }
-
     static change(name, value) {
         switch (name) {
             case "firstname":
@@ -40,9 +36,9 @@ export default class User {
     }
 
     constructor( user = {} ) {
-        this.firstname = user.firstname
-        this.lastname = user.lastname
-        this.email = user.email
-        this.description = user.description
+        this.firstname = user.firstname || 'test'
+        this.lastname = user.lastname || ''
+        this.email = user.email || ''
+        this.description = user.description || ''
     }
 }

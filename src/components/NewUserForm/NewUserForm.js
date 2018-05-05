@@ -7,33 +7,40 @@ import Button from '../FormTemplate/Button';
 
 export class NewUserForm extends Component {
 
-    user = new User();
+    constructor(props) {
+        super(props);
 
-    constructor() {
-        super();
+        this.user = props.user;
 
-        this.baseState = {
-            firstname: { value: '', valid: null },
-            lastname: { value: '', valid: null },
-            email: { value: '', valid: null, null: true },
-            description: { value: '', valid: null },
+        this.baseUser = {
+            firstname: { value: this.user.firstname, valid: null },
+            lastname: { value: this.user.lastname, valid: null },
+            email: { value: this.user.email, valid: null, null: true },
+            description: { value: this.user.description, valid: null },
         }
 
-        for (const key in this.baseState) {
-            this.baseState[key]['name'] = key
-            this.baseState[key].valid = (this.baseState[key].value === '' && this.baseState[key].null) ? true : null
+        for (const key in this.baseUser) {
+            this.baseUser[key]['name'] = key
+            this.baseUser[key].valid = this.baseUser[key].value === '' && this.baseUser[key].null || this.baseUser[key].valid
         }
 
         this.state = {
-            ...this.baseState,
+            ...this.baseUser,
             formValid: false
         }
     }
 
+    componentDidMount = () => {
+        if (this.props.action === 'edit') {
+            for (const key in this.baseUser) {
+                this.handleChange({
+                    target: { value: this.baseUser[key].value, name: this.baseUser[key].name }
+                });
+            }
+        }
+    }
+
     handleValidForm(state) {
-
-        console.log(state);
-
 
        for (const key in state) {
            if (state.hasOwnProperty(key)) {
@@ -44,16 +51,15 @@ export class NewUserForm extends Component {
            }
        }
 
-       console.log('test');
-
-
        this.setState({
            formValid: true
        });
     }
 
     handleSubmit = e => {
+        e.preventDefault();
         if (!this.state.formValid) return;
+        if (this.props.onSuccess) this.props.onSuccess(this.user);
     }
 
     handleChange = e => {
@@ -67,8 +73,10 @@ export class NewUserForm extends Component {
         field.valid = User.isValid(name, value);
         field.valid = (value === '' && field.null) ? null : field.valid;
 
-        console.log(field.valid);
-
+        if ((value === '' && field.null) || field.valid) {
+            this.user[name] = field.value;
+            this.props.onSuccess(this.user);
+        }
 
         return this.setState(prevState => ({
             ...prevState,
@@ -80,60 +88,62 @@ export class NewUserForm extends Component {
 
     render() {
 
+        let { firstname, lastname, email, description } = this.state
+
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="field">
                         <Label
                             title="Firstname"
-                            for={this.state.firstname.name}
+                            for={firstname.name}
                         />
                         <Input
-                            value={this.state.firstname.value}
+                            value={firstname.value}
                             onChange={this.handleChange}
-                            valid={this.state.firstname.valid}
-                            name={this.state.firstname.name}
-                            required={!this.state.firstname.null}
+                            valid={firstname.valid}
+                            name={firstname.name}
+                            required={!firstname.null}
                         />
                     </div>
                     <div className="field">
                         <Label
                             title="Lastname"
-                            for={this.state.lastname.name}
+                            for={lastname.name}
                         />
                         <Input
-                            value={this.state.lastname.value}
+                            value={lastname.value}
                             onChange={this.handleChange}
-                            valid={this.state.lastname.valid}
-                            name={this.state.lastname.name}
-                            required={!this.state.lastname.null}
+                            valid={lastname.valid}
+                            name={lastname.name}
+                            required={!lastname.null}
                         />
                     </div>
                     <div className="field">
                         <Label
                             title="Email"
-                            for={this.state.email.name}
+                            for={email.name}
                         />
                         <Input
                             type="email"
-                            value={this.state.email.value}
+                            value={email.value}
                             onChange={this.handleChange}
-                            valid={this.state.email.valid}
-                            name={this.state.email.name}
-                            required={!this.state.email.null}
+                            valid={email.valid}
+                            name={email.name}
+                            required={!email.null}
                         />
                     </div>
                     <div className="field">
                         <Label
                             title="Description"
-                            for={this.state.description.name}
+                            for={description.name}
                         />
                         <Textarea
-                            value={this.state.description.value}
+                            value={description.value}
                             onChange={this.handleChange}
-                            valid={this.state.description.valid}
-                            name={this.state.description.name}
-                            required={!this.state.description.null}
+                            valid={description.valid}
+                            name={description.name}
+                            required={!description.null}
                         />
                     </div>
 
