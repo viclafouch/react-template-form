@@ -13,9 +13,12 @@ const Input = (props) => {
         minLength: 0,
     }
 
+    let classNames = props.className || defaultOptions.className
+    if (typeof (props.valid) === "boolean") classNames += (props.valid) ? ' valid' : ' invalid';
+
     return (
         <input
-            className={props.className || defaultOptions.className}
+            className={classNames}
             id={props.name}
             name={props.name}
             type={props.type || defaultOptions.type}

@@ -416,3 +416,14 @@ there.
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
+
+
+.valid {
+    border-color: green!important;
+    color: green!important;
+}
+
+.invalid {
+    border-color: red!important;
+    color: red!important;
+}

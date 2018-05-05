@@ -14,8 +14,13 @@ export default class User {
             case "firstname":
                 return !(/\d/.test(value));
 
+            case "lastname":
+                return !(/\d/.test(value));
+
+            case "email":
+                return !/\s/g.test(value);
             default:
-                break;
+                return true;
         }
     }
 
@@ -23,9 +28,14 @@ export default class User {
         switch (name) {
             case "firstname":
                 return value.length > 0;
-
+            case "lastname":
+                return value.length > 0;
+            case "email":
+                return /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(String(value).toLowerCase())
+            case "description":
+                return value.length > 0;
             default:
-                break;
+                return true;
         }
     }
 

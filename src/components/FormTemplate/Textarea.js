@@ -13,9 +13,12 @@ const Textarea = (props) => {
         wrap: 'soft'
     }
 
+    let classNames = props.className || defaultOptions.className
+    if (typeof (props.valid) === "boolean") classNames += (props.valid) ? ' valid' : (props.value) ? ' invalid' : '';
+
     return (
         <textarea
-            className={props.className || defaultOptions.className}
+            className={classNames}
             id={props.name}
             name={props.name}
             value={props.value}
