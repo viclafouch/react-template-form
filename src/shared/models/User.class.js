@@ -12,8 +12,7 @@ export default class User {
     static change(name, value) {
         switch (name) {
             case "firstname":
-                return value;
-                break;
+                return !(/\d/.test(value));
 
             default:
                 break;
@@ -23,8 +22,7 @@ export default class User {
     static isValid(name, value) {
         switch (name) {
             case "firstname":
-                return true;
-                break;
+                return value.length > 0;
 
             default:
                 break;

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import User from '../../shared/models/User.class';
 import Input from '../FormTemplate/Input';
 import Label from '../FormTemplate/Label';
+import Textarea from '../FormTemplate/Textarea';
 
 export class NewUserForm extends Component {
 
@@ -38,13 +39,18 @@ export class NewUserForm extends Component {
        });
     }
 
+    handleSubmit = e => {
+        if (!this.state.formValid) return;
+    }
+
     handleChange = e => {
+
         let name = e.target.name;
         let value = e.target.value;
 
         let field = this.state[name];
 
-        field.value = User.change(name, value);
+        if (User.change(name, value)) field.value = value;
         field.valid = User.isValid(name, value);
 
         return this.setState(prevState => ({
@@ -59,13 +65,13 @@ export class NewUserForm extends Component {
 
         return (
             <div>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <div className="field">
                         <Label
                             title="mdr"
                             for={this.state.firstname.name}
                         />
-                        <Input
+                        <Textarea
                             value={this.state.firstname.value}
                             onChange={this.handleChange}
                             name={this.state.firstname.name}
