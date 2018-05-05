@@ -25,6 +25,19 @@ export class NewUserForm extends Component {
         }
     }
 
+    handleValidForm(state) {
+
+       for (const key in state) {
+           if (state.hasOwnProperty(key)) {
+               if (state[key].valid === false) return;
+           }
+       }
+
+       this.setState({
+           formValid: true
+       });
+    }
+
     handleChange = e => {
         let name = e.target.name;
         let value = e.target.value;
@@ -34,16 +47,15 @@ export class NewUserForm extends Component {
         field.value = User.change(name, value);
         field.valid = User.isValid(name, value);
 
-        this.setState(prevState => ({
+        return this.setState(prevState => ({
             ...prevState,
             [name]: field
-        }));
+        }), () => {
+            this.handleValidForm(this.state)
+        });
     }
 
     render() {
-
-        console.log(this.state);
-
 
         return (
             <div>
