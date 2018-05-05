@@ -9,6 +9,28 @@ export default class User {
         return `${this.firstname} ${this.lastname}`
     }
 
+    static change(name, value) {
+        switch (name) {
+            case "firstname":
+                return value;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    static isValid(name, value) {
+        switch (name) {
+            case "firstname":
+                return true;
+                break;
+
+            default:
+                break;
+        }
+    }
+
     constructor( user = {} ) {
         this.firstname = user.firstname
         this.lastname = user.lastname

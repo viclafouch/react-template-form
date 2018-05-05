@@ -17,6 +17,8 @@ export class NewUserForm extends Component {
             description: { value: '', valid: false },
         }
 
+        for (const key in this.baseState) { this.baseState[key]['name'] = key }
+
         this.state = {
             ...this.baseState,
             formValid: false
@@ -24,22 +26,37 @@ export class NewUserForm extends Component {
     }
 
     handleChange = e => {
-        console.log(this);
+        let name = e.target.name;
+        let value = e.target.value;
+
+        let field = this.state[name];
+
+        field.value = User.change(name, value);
+        field.valid = User.isValid(name, value);
+
+        this.setState(prevState => ({
+            ...prevState,
+            [name]: field
+        }));
     }
 
     render() {
+
+        console.log(this.state);
+
+
         return (
             <div>
                 <form>
                     <div className="field">
                         <Label
                             title="mdr"
-                            for="firstname"
+                            for={this.state.firstname.name}
                         />
                         <Input
                             value={this.state.firstname.value}
                             onChange={this.handleChange}
-                            name="firstname"
+                            name={this.state.firstname.name}
                         />
                     </div>
                 </form>
