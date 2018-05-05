@@ -14,7 +14,8 @@ const Textarea = (props) => {
     }
 
     let classNames = props.className || defaultOptions.className
-    if (typeof (props.valid) === "boolean") classNames += (props.valid) ? ' valid' : (props.value) ? ' invalid' : '';
+    if (typeof (props.valid) === "boolean") classNames += (props.valid) ? ' valid' : ' invalid';
+    if (props.required === false && props.value === '') classNames = props.className || defaultOptions.className;
 
     return (
         <textarea

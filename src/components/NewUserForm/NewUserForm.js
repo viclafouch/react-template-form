@@ -3,6 +3,7 @@ import User from '../../shared/models/User.class';
 import Input from '../FormTemplate/Input';
 import Label from '../FormTemplate/Label';
 import Textarea from '../FormTemplate/Textarea';
+import Button from '../FormTemplate/Button';
 
 export class NewUserForm extends Component {
 
@@ -14,11 +15,14 @@ export class NewUserForm extends Component {
         this.baseState = {
             firstname: { value: '', valid: null },
             lastname: { value: '', valid: null },
-            email: { value: '', valid: null },
+            email: { value: '', valid: null, null: true },
             description: { value: '', valid: null },
         }
 
-        for (const key in this.baseState) { this.baseState[key]['name'] = key }
+        for (const key in this.baseState) {
+            this.baseState[key]['name'] = key
+            this.baseState[key].valid = (this.baseState[key].value === '' && this.baseState[key].null) ? true : null
+        }
 
         this.state = {
             ...this.baseState,
@@ -28,11 +32,20 @@ export class NewUserForm extends Component {
 
     handleValidForm(state) {
 
+        console.log(state);
+
+
        for (const key in state) {
            if (state.hasOwnProperty(key)) {
-               if (state[key].valid === false) return;
+               if (state[key].valid === false || (state[key].valid === null && state[key].value))
+               return this.setState({
+                   formValid: false
+               });
            }
        }
+
+       console.log('test');
+
 
        this.setState({
            formValid: true
@@ -52,6 +65,10 @@ export class NewUserForm extends Component {
 
         if (User.change(name, value)) field.value = value;
         field.valid = User.isValid(name, value);
+        field.valid = (value === '' && field.null) ? null : field.valid;
+
+        console.log(field.valid);
+
 
         return this.setState(prevState => ({
             ...prevState,
@@ -76,6 +93,7 @@ export class NewUserForm extends Component {
                             onChange={this.handleChange}
                             valid={this.state.firstname.valid}
                             name={this.state.firstname.name}
+                            required={!this.state.firstname.null}
                         />
                     </div>
                     <div className="field">
@@ -88,6 +106,7 @@ export class NewUserForm extends Component {
                             onChange={this.handleChange}
                             valid={this.state.lastname.valid}
                             name={this.state.lastname.name}
+                            required={!this.state.lastname.null}
                         />
                     </div>
                     <div className="field">
@@ -101,6 +120,7 @@ export class NewUserForm extends Component {
                             onChange={this.handleChange}
                             valid={this.state.email.valid}
                             name={this.state.email.name}
+                            required={!this.state.email.null}
                         />
                     </div>
                     <div className="field">
@@ -113,10 +133,13 @@ export class NewUserForm extends Component {
                             onChange={this.handleChange}
                             valid={this.state.description.valid}
                             name={this.state.description.name}
+                            required={!this.state.description.null}
                         />
                     </div>
 
-                    
+                    <Button
+                        disabled={!this.state.formValid}
+                    />
                 </form>
             </div>
         )
