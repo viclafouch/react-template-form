@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import User from '../../shared/models/User.class';
 import Input from '../FormTemplate/Input';
+import Label from '../FormTemplate/Label';
 
 export class NewUserForm extends Component {
 
@@ -30,10 +31,17 @@ export class NewUserForm extends Component {
         return (
             <div>
                 <form>
-                    <Input
-                        value={this.state.firstname.value}
-                        onChange={this.handleChange}
-                    />
+                    <div className="field">
+                        <Label
+                            title="mdr"
+                            for="firstname"
+                        />
+                        <Input
+                            value={this.state.firstname.value}
+                            onChange={this.handleChange}
+                            name="firstname"
+                        />
+                    </div>
                 </form>
             </div>
         )
