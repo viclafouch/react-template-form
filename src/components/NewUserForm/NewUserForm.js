@@ -23,6 +23,18 @@ export class NewUserForm extends Component {
         this.state = this.baseState
     }
 
+    componentDidMount = () => {
+        let fields = this.baseUser;
+
+        if (this.props.action === 'edit') {
+            for (const key in fields) {
+                this.handleChange({
+                    target: { value: fields[key].value, name: fields[key].name }
+                });
+            }
+        }
+    }
+
     componentDidUpdate = (prevProps, prevState) => {
         if (this.state.formValid !== prevState.formValid)
             return this.props.FormCanBeSubmitted(this.state.formValid)
@@ -75,7 +87,6 @@ export class NewUserForm extends Component {
         if (User.canChange(name, value))
             field.value = this.user[name] = value;
         field.valid = (value === '' && field.null) || User.isValid(name, value);
-
 
         this.props.updateUser(this.user);
 

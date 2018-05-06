@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactJson from 'react-json-view'
-import { NewUserForm } from '../../components/NewUserForm/NewUserForm';
+import NewUserForm from '../../components/NewUserForm/NewUserForm';
 import User from '../../shared/models/User.class';
 
 export class DemoContainer extends Component {
@@ -8,7 +8,7 @@ export class DemoContainer extends Component {
     constructor() {
         super();
         this.state = {
-            user: new User(),
+            User: new User(),
             formValid: false
         }
 
@@ -31,9 +31,10 @@ export class DemoContainer extends Component {
                     <div className="row">
                         <div className="one-half column">
                             <NewUserForm
+                                action="edit"
                                 ref={this.form}
                                 user={this.state.user}
-                                updateUser={user => this.setState({ user: user })}
+                                updateUser={user => this.setState({ User: user })}
                                 onSubmit={() => { alert('submitted'); this.form.current.handleClear(); } }
                                 FormCanBeSubmitted={bool => this.setState({ formValid: bool })}
                             />
