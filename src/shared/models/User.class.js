@@ -5,6 +5,7 @@ export default class User {
     email = null;
     description = null;
     civility = null;
+    age = null;
 
 
     constructor(user = {}) {
@@ -13,6 +14,7 @@ export default class User {
         this.email = user.email || ''
         this.description = user.description || ''
         this.civility = user.civility || ''
+        this.age = user.age || ''
     }
 
     static canChange(name, value) {
@@ -46,6 +48,8 @@ export default class User {
                 return value.length > 0;
             case "civility":
                 return value === "Male" || value === "Female"
+            case "age":
+                return value === "> 25" || value === "< 25"
             default:
                 return true;
         }

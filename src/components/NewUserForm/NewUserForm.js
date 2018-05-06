@@ -5,6 +5,7 @@ import Label from '../FormTemplate/Label';
 import Textarea from '../FormTemplate/Textarea';
 import Button from '../FormTemplate/Button';
 import Select from '../FormTemplate/Select';
+import Checkboxes from '../FormTemplate/Checkboxes';
 
 export class NewUserForm extends Component {
 
@@ -12,6 +13,7 @@ export class NewUserForm extends Component {
         super();
         this.user = new User();
         this.civilityOptions = ['Male', 'Female']
+        this.ageOptions = ['> 25', '< 25']
 
         this.baseState = {
             fields: this.setBaseUser(this.user),
@@ -26,14 +28,13 @@ export class NewUserForm extends Component {
             return this.props.FormCanBeSubmitted(this.state.formValid)
     }
 
-
     setBaseUser(user) {
-
         this.baseUser = {
             firstname: { value: user.firstname },
             lastname: { value: user.lastname },
             email: { value: user.email },
             civility: { value: user.civility },
+            age: { value: user.age },
             description: { value: user.description, null: true },
         }
 
@@ -84,6 +85,7 @@ export class NewUserForm extends Component {
                 this.handleValidField('lastname') &&
                 this.handleValidField('email') &&
                 this.handleValidField('civility') &&
+                this.handleValidField('age') &&
                 this.handleValidField('description') === true,
             fields: {
                 ...prevState.fields,
@@ -94,13 +96,13 @@ export class NewUserForm extends Component {
 
     render() {
 
-        let { firstname, lastname, email, description, civility } = this.state.fields
+        let { firstname, lastname, email, description, civility, age } = this.state.fields
 
         return (
             <form onSubmit={this.handleSubmit}>
                 <fieldset>
                     <Label
-                        title="Firstname"
+                        title="Firstname *"
                         for={firstname.name}
                     />
                     <Input
@@ -113,7 +115,7 @@ export class NewUserForm extends Component {
                 </fieldset>
                 <fieldset>
                     <Label
-                        title="Lastname"
+                        title="Lastname *"
                         for={lastname.name}
                     />
                     <Input
@@ -126,7 +128,7 @@ export class NewUserForm extends Component {
                 </fieldset>
                 <fieldset>
                     <Label
-                        title="Email"
+                        title="Email *"
                         for={email.name}
                     />
                     <Input
@@ -140,7 +142,7 @@ export class NewUserForm extends Component {
                 </fieldset>
                 <fieldset>
                     <Label
-                        title="Civility"
+                        title="Civility *"
                         for={civility.name}
                     />
                     <Select
@@ -150,6 +152,20 @@ export class NewUserForm extends Component {
                         name={civility.name}
                         options={this.civilityOptions}
                         required={!civility.null}
+                    />
+                </fieldset>
+                <fieldset>
+                    <Label
+                        title="Age *"
+                        for={age.name}
+                    />
+                    <Checkboxes
+                        value={age.value}
+                        onChange={this.handleChange}
+                        valid={age.valid}
+                        name={age.name}
+                        options={this.ageOptions}
+                        required={!age.null}
                     />
                 </fieldset>
                 <fieldset>
@@ -172,7 +188,7 @@ export class NewUserForm extends Component {
                 />
 
                 <Button
-                    title="clear"
+                    title="Clear"
                     reset
                     onClick={this.handleClear}
                 />
