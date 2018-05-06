@@ -427,3 +427,9 @@ there.
     border-color: red!important;
     color: red!important;
 }
+
+h1 { text-align: center; color: #444; margin: 25px auto; }
+
+.row {
+    padding: 25px 0;
+}
