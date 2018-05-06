@@ -71,17 +71,20 @@ export class NewUserForm extends Component {
 
         let field = this.state.fields[name];
 
-        if (User.canChange(name, value)) field.value = value;
-        field.valid = User.isValid(name, value);
-        field.valid = (value === '' && field.null) || field.valid;
+        if (User.canChange(name, value))
+            field.value = this.user[name] = value;
+        field.valid = (value === '' && field.null) || User.isValid(name, value);
 
-        if (field.valid) {
-            this.user[name] = field.value;
-            this.props.updateUser(this.user);
-        }
+
+        this.props.updateUser(this.user);
 
         return this.setState(prevState => ({
-            formValid: (this.handleValidField('firstname') && this.handleValidField('lastname') && this.handleValidField('email') && this.handleValidField('civility') && this.handleValidField('description') === true),
+            formValid:
+                this.handleValidField('firstname') &&
+                this.handleValidField('lastname') &&
+                this.handleValidField('email') &&
+                this.handleValidField('civility') &&
+                this.handleValidField('description') === true,
             fields: {
                 ...prevState.fields,
                 [name]: field
