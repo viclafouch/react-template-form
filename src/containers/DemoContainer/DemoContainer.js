@@ -11,6 +11,8 @@ export class DemoContainer extends Component {
             user: new User(),
             formValid: false
         }
+
+        this.form = React.createRef();
     }
 
     render() {
@@ -29,8 +31,10 @@ export class DemoContainer extends Component {
                     <div className="row">
                         <div className="one-half column">
                             <NewUserForm
+                                ref={this.form}
                                 user={this.state.user}
-                                onSuccess={user => this.setState({ user: user })}
+                                updateUser={user => this.setState({ user: user })}
+                                onSubmit={() => { alert('submitted'); this.form.current.handleClear(); } }
                                 FormCanBeSubmitted={bool => this.setState({ formValid: bool })}
                             />
                         </div>

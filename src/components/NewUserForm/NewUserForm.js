@@ -45,18 +45,16 @@ export class NewUserForm extends Component {
         return this.baseUser;
     }
 
-    handleValidField(fieldName) {
-        return !!(this.state.fields[fieldName].valid)
-    }
+    handleValidField = fieldName => !!(this.state.fields[fieldName].valid)
 
     handleClear = e => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         this.user.clear();
         return this.setState({
             formValid: false,
             fields: this.setBaseUser(this.user)
         }, () => {
-            this.props.onSuccess(this.user);
+            this.props.updateUser(this.user);
             this.props.FormCanBeSubmitted(this.state.formValid)
         });
     }
@@ -64,7 +62,7 @@ export class NewUserForm extends Component {
     handleSubmit = e => {
         e.preventDefault();
         if (!this.state.formValid) return;
-        if (this.props.onSuccess) return this.props.onSuccess(this.user);
+        if (this.props.onSubmit) return this.props.onSubmit();
     }
 
     handleChange = e => {
@@ -75,11 +73,11 @@ export class NewUserForm extends Component {
 
         if (User.canChange(name, value)) field.value = value;
         field.valid = User.isValid(name, value);
-        field.valid = (value === '' && field.null) ? null : field.valid;
+        field.valid = (value === '' && field.null) || field.valid;
 
-        if ((value === '' && field.null) || field.valid) {
+        if (field.valid) {
             this.user[name] = field.value;
-            this.props.onSuccess(this.user);
+            this.props.updateUser(this.user);
         }
 
         return this.setState(prevState => ({
@@ -97,7 +95,7 @@ export class NewUserForm extends Component {
 
         return (
             <form onSubmit={this.handleSubmit}>
-                <div className="field">
+                <fieldset>
                     <Label
                         title="Firstname"
                         for={firstname.name}
@@ -109,8 +107,8 @@ export class NewUserForm extends Component {
                         name={firstname.name}
                         required={!firstname.null}
                     />
-                </div>
-                <div className="field">
+                </fieldset>
+                <fieldset>
                     <Label
                         title="Lastname"
                         for={lastname.name}
@@ -122,8 +120,8 @@ export class NewUserForm extends Component {
                         name={lastname.name}
                         required={!lastname.null}
                     />
-                </div>
-                <div className="field">
+                </fieldset>
+                <fieldset>
                     <Label
                         title="Email"
                         for={email.name}
@@ -136,8 +134,8 @@ export class NewUserForm extends Component {
                         name={email.name}
                         required={!email.null}
                     />
-                </div>
-                <div className="field">
+                </fieldset>
+                <fieldset>
                     <Label
                         title="Civility"
                         for={civility.name}
@@ -150,8 +148,8 @@ export class NewUserForm extends Component {
                         options={this.civilityOptions}
                         required={!civility.null}
                     />
-                </div>
-                <div className="field">
+                </fieldset>
+                <fieldset>
                     <Label
                         title="Description (can be null)"
                         for={description.name}
@@ -163,11 +161,11 @@ export class NewUserForm extends Component {
                         name={description.name}
                         required={!description.null}
                     />
-                </div>
+                </fieldset>
 
                 <Button
                     disabled={!this.state.formValid}
-                    title="Savee"
+                    title="Save"
                 />
 
                 <Button

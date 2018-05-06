@@ -6,9 +6,16 @@ export default class User {
     description = null;
     civility = null;
 
-    static canChange(name, value) {
-        console.log(name);
 
+    constructor(user = {}) {
+        this.firstname = user.firstname || ''
+        this.lastname = user.lastname || ''
+        this.email = user.email || ''
+        this.description = user.description || ''
+        this.civility = user.civility || ''
+    }
+
+    static canChange(name, value) {
         switch (name) {
             case "firstname":
                 return !(/\d/.test(value));
@@ -17,8 +24,6 @@ export default class User {
                 return !(/\d/.test(value));
 
             case "email":
-                console.log(/\s/g.test(value));
-
                 return !/\s/g.test(value);
             default:
                 return true;
@@ -44,13 +49,5 @@ export default class User {
             default:
                 return true;
         }
-    }
-
-    constructor( user = {} ) {
-        this.firstname = user.firstname || ''
-        this.lastname = user.lastname || ''
-        this.email = user.email || ''
-        this.description = user.description || ''
-        this.civility = user.civility || ''
     }
 }
