@@ -31,7 +31,6 @@ export class DemoContainer extends Component {
                     <div className="row">
                         <div className="one-half column">
                             <NewUserForm
-                                action="edit"
                                 ref={this.form}
                                 user={this.state.user}
                                 updateUser={user => this.setState({ User: user })}
