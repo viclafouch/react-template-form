@@ -447,3 +447,7 @@ input[type="checkbox"] {
     margin-bottom:  .5rem;;
     margin-right: 15px;
 }
+
+input:-webkit-autofill {
+    -webkit-box-shadow:0 0 0 50px white inset;
+}
