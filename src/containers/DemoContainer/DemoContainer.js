@@ -41,7 +41,8 @@ export class DemoContainer extends Component {
                         <div className="one-half column">
                             <p>Result in live : </p>
                             <ReactJson src={this.state} name="Form" />
-                            <p>Form can be submitted : {this.state.formValid ? '✔' : '✘'}</p>
+                            <br />
+                            <p>Form can be submitted : <span className={(this.state.formValid ? 'valid' : 'invalid')}>{this.state.formValid ? '✔' : '✘'}</span></p>
                         </div>
                     </div>
                 </div>

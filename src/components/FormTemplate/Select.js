@@ -5,6 +5,7 @@ const Select = (props) => {
     const defaultOptions = {
         className: '',
         disabled: false,
+        defaultOptionTitle: 'defaultTitle'
     }
 
     let options = props.options || [];
@@ -22,7 +23,7 @@ const Select = (props) => {
             onChange={props.onChange}
             disabled={props.disabled || defaultOptions.disabled}
         >
-            <option value="" disabled>Sélectionner</option>
+            <option value="" disabled>{props.defaultOptionTitle || defaultOptions.defaultOptionTitle}</option>
             {
                 options.map((elem, index) =>
                     <option key={index} value={elem}>{elem}</option>

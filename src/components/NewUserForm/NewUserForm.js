@@ -10,17 +10,15 @@ import Checkboxes from '../FormTemplate/Checkboxes';
 export class NewUserForm extends Component {
 
     constructor() {
-        super();
-        this.user = new User();
+        super()
+        this.user = new User()
         this.civilityOptions = ['Male', 'Female']
         this.ageOptions = ['> 25', '< 25']
 
-        this.baseState = {
+        this.state = this.baseState = {
             fields: this.setBaseUser(this.user),
             formValid: false
         }
-
-        this.state = this.baseState
     }
 
     componentDidMount = () => {
@@ -163,6 +161,7 @@ export class NewUserForm extends Component {
                         name={civility.name}
                         options={this.civilityOptions}
                         required={!civility.null}
+                        defaultOptionTitle="Choose here"
                     />
                 </fieldset>
                 <fieldset>
